@@ -1,7 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
+
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
@@ -9,6 +9,11 @@
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
+
 \begin{document}
 
 \title{Caching in Named Data Networking for the Wireless Internet of Things}
@@ -44,15 +49,57 @@ The content of this short paper is as follows. In section~\ref{sec:background} a
 
 \subsection{Named Data Networking}
 
+NDN is a content dissemination architecture for the future internet. It employs hierarchical URI-like content names which are carried in so-called \textit{Interest} and \textit{Data} packages. As opposed to current content delivery technologies, NDN can be employed as a protocol directly above the link layer\cite{Baccelli2014}, reducing the communication overhead and thus energy efficiency in wireless applications.
+
+Each NDN node consists of the following data tables:
+\begin{itemize}
+    \item The content store (CS) which is used to cache incoming data
+    \item The Pending Interest Table (PIT) in which pending data requests are stored
+    \item The Forwarding Information Base (FIB), used as a routing table, deciding on routes based on content names
+\end{itemize}
+
+When an \textit{Interest} arrives at a node, it first checks whether there is already data with the given content name in the CS. If this is the case, the data is returned to the requesting node. Otherwise, the node checks whether there already is a pending Interest in the PIT matching the content name. If there already exists an entry in the PIT, the Interest is discarded. If no such entry exists, the Interest is forwarded using the routing information in the FIB. When the Data packet returns to a node, it forwards the data packet to all corresponding nodes stored in the PIT. Each node may decide to cache the data in the CS for further requests of the same content name.
+
 \subsection{Caching in Named Data Networking}
+
+The caching system in a NDN node consists of two components: (i) the caching strategy, deciding whether incoming data should be cached and (ii) a replacement policy, deciding which data in the cache shall be dropped when the CS is full.
+
+Many different caching strategies have been proposed, including probabilistic caching\cite{Tarnoi2014}. The key idea behind this approach is that a node caches data based on a probability $p$ with $0 \leq p \leq 1$. The \textit{Cache Everything Everywhere (CEE²)} strategy is a special case of probabilistic caching with $p = 1$. Lowering $p$ decreases the chance of data being cached while increasing the diversity of cached data in the overall network.
+
+In the context of NDN in IoT, special requirements arise for caching. IoT devices are often very limited in terms of energy supply, storage capacity and connection stability, making classic approaches invented for big, static data chunks difficult to use. The research in \cite{Baccelli2014} shows that caching is still beneficial on those limited devices. As data packets are usually small and frequently updated, caching can drastically reduce the number of radio transmissions within an wireless IoT network.
+
+In IoT networks, information freshness is an important factor when it comes to caching\cite{Quevedo2014}, not only regarding producer-driven information on data validity periods, but also giving consumers the ability to choose, how old the data they need may be. In this paper, the approach from \cite{Vural2014} will be modified, introducing a probabilistic caching strategy aimed to be used in multi-hop wireless networks.
 
 \section{The pCASTING Caching Strategy}
 \label{sec:pcasting}
+
+The caching strategy introduced in the research targets \textit{simplicity} and \textit{no overhead}. The pCASTING caching strategy is executed on each node completely independently. Additionally, pCASTING is independent from the used routing protocol\cite{Amadeo2014}. As a first step, pCASTING calculates the probability at which data is cached in a node. As a second step, the node decides whether to cache data using the previously calculated probability.
+
+The researchers describe attributes connected to the device or the data which are taken into account when calculating the caching probability. Namely:
+\begin{enumerate}
+	\item The device's energy level $EN$ with $0 \leq EN \leq 1$.
+	\item The devices current cache occupancy $OC$ with $0 \leq OC \leq 1$. A value of $0$ means that the cache is empty, $1$ represents a full cache respectively.
+	\item The residual freshness $FR = 1 - \frac{currentTime - t_s}{f}$ with $t_s$ being the timestamp at which the data was sampled and $f$ indicating for how long a datum is valid.
+\end{enumerate} 
+
+These three parameters are then combined to calculate a caching probability $F_u$ at a given node.
+\begin{equation}
+	F_u = \sum_{i = 1}^{N_p} w_i g(x_i)
+\end{equation}
+
+where the $x_i$ describe the values $OC$, $EN$ and $FR$. The weights $w_i$ are chosen such that $0 \leq w_i \leq 1$ and $\sum_{i = 1}^{N} = 1$. The utility function $g(x_i)$ is defined as the power function $g(x_i) = x_i^n$, $n \geq 1$, thus ensuring monotony in the interval of $[0; 1]$ and putting more impact on values that are near to the limits of the interval. The final function $F_u$ for the above parameters then is defines as the weighted sum of power functions:
+\begin{equation}
+	F_u = w_1 \cdot EN^n + w_2 \cdot (1 - OC)^n + w_3 \cdot FR^n
+\end{equation}
+
+$F_u$ is calculated by every node upon arrival of every Data packet.
 
 \section{Evaluation}
 \label{sec:eval}
 
 \section{Conclusion}
 \label{sec:conclusion}
+
+\printbibliography
 
 \end{document}
