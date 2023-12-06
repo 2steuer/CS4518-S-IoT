@@ -27,6 +27,7 @@ merlin.steuer@student.uni-luebeck.de
 \maketitle
 
 \begin{abstract}
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -36,11 +37,11 @@ merlin.steuer@student.uni-luebeck.de
 
 \section{Introduction}
 
-The technologies the internet currently relies on were built for requirements dating a long while back. Back then, relatively few computers needed to be connected to exchange relatively large, static documents or files. Nowadays, however, the structure and thus the requirements for the interconnection of devices has changed. Within the last few decades, the Internet of Things (IoT) has brought up many new types of interconnected devices and new requirements for technologies. One important thing that has changed is the type of data that is produced and consumed in networks. In IoT applications, data packets are usually small and transient, for example, measurements produced by a wireless sensor.
+In the last years, the Internet of Things (IoT) has become increasingly important and the variety of connected devices is steadily rising, ranging from tiny sensors and actuators to big and powerful smartphones or even vehicles. In addition to that, the kind of data exchanged in these networks has also changed from big, static documents to small, transient data, for example sensor readings produced by such devices.
 
-In the paper the researchers focussed on wireless devices, which bring a multitude of special requirements and limitations with them. On one hand, wireless devices have very limited energy resources, making efficient transporting of data an important factor. On the other hand, these devices usually have very small memory sizes and are thus not capable of storing large amounts of data.
+The researchers in \cite{Hail2015} focused on wireless devices, which usually have limited energy resources and small memory sizes, creating a need for efficient communication (thus reducing the number of radio transmissions) and memory usage.
 
-The researchers propose a new caching strategy for Named Data Networks, {pCASTING}, which is especially suited for applications in wireless IoT networks. It could be shown that the strategy is beneficial for both energy consumption and memory usage while also increasing data availability and decreasing response times to data requests.
+The researchers propose a new caching strategy for Named Data Networks, {pCASTING} (\textit{probabilisticCAching STrategy for the INternet of thinGs}), which is especially suited for applications in wireless IoT networks. It could be shown that the strategy is beneficial for both energy consumption and memory usage while also increasing data availability and decreasing response times to data requests.
 
 The content of this short paper is as follows. In section~\ref{sec:background} a short introduction to Named Data Networking and caching strategies is given. In Section~\ref{sec:pcasting} the proposed caching strategy is discussed in detail. In Section~\ref{sec:eval} the strategy is evaluated and the paper is concluded in Section~\ref{sec:conclusion}.
 
@@ -66,9 +67,7 @@ The caching system in a NDN node consists of two components: (i) the caching str
 
 Many different caching strategies have been proposed, including probabilistic caching\cite{Tarnoi2014}. The key idea behind this approach is that a node caches data based on a probability $p$ with $0 \leq p \leq 1$. The \textit{Cache Everything Everywhere (CEE²)} strategy is a special case of probabilistic caching with $p = 1$. Lowering $p$ decreases the chance of data being cached while increasing the diversity of cached data in the overall network.
 
-In the context of NDN in IoT, special requirements arise for caching. IoT devices are often very limited in terms of energy supply, storage capacity and connection stability, making classic approaches invented for big, static data chunks difficult to use. The research in \cite{Baccelli2014} shows that caching is still beneficial on those limited devices. As data packets are usually small and frequently updated, caching can drastically reduce the number of radio transmissions within an wireless IoT network.
-
-In IoT networks, information freshness is an important factor when it comes to caching\cite{Quevedo2014}, not only regarding producer-driven information on data validity periods, but also giving consumers the ability to choose, how old the data they need may be. In this paper, the approach from \cite{Vural2014} will be modified, introducing a probabilistic caching strategy aimed to be used in multi-hop wireless networks.
+In IoT networks the classic caching approaches reach their limits due to the limited memory space and transient data. The research in \cite{Baccelli2014} shows however that caching still has a beneficial impact on these networks, as it can drastically reduce the number of radio transmissions needed within a network.
 
 \section{The pCASTING Caching Strategy}
 \label{sec:pcasting}
@@ -87,7 +86,7 @@ These three parameters are then combined to calculate a caching probability $F_u
 	F_u = \sum_{i = 1}^{N_p} w_i g(x_i)
 \end{equation}
 
-where the $x_i$ describe the values $OC$, $EN$ and $FR$. The weights $w_i$ are chosen such that $0 \leq w_i \leq 1$ and $\sum_{i = 1}^{N} = 1$. The utility function $g(x_i)$ is defined as the power function $g(x_i) = x_i^n$, $n \geq 1$, thus ensuring monotony in the interval of $[0; 1]$ and putting more impact on values that are near to the limits of the interval. The final function $F_u$ for the above parameters then is defines as the weighted sum of power functions:
+where the $x_i$ describe the values $OC$, $EN$ and $FR$. The weights $w_i$ are chosen such that $0 \leq w_i \leq 1$ and $\sum_{i = 1}^{N} w_i = 1$. The utility function $g(x_i)$ is defined as the power function $g(x_i) = x_i^n$, $n \geq 1$, thus ensuring monotony in the interval of $[0; 1]$ and putting more impact on values that are near to the limits of the interval. The final function $F_u$ for the above parameters then is defines as the weighted sum of power functions:
 \begin{equation}
 	F_u = w_1 \cdot EN^n + w_2 \cdot (1 - OC)^n + w_3 \cdot FR^n
 \end{equation}
@@ -99,6 +98,8 @@ $F_u$ is calculated by every node upon arrival of every Data packet.
 
 \section{Conclusion}
 \label{sec:conclusion}
+
+In this paper, the {pCASTING} caching strategy was proposed for in-network caching in wireless IoT applications. The strategy adjusts the caching probability according to three main attributes of a device: It's energy level, the cache occupancy and the data freshness. It could be shown in simulations, that the strategy is able to reduce energy consumption in the nodes and while at the same time reduces content retrieval delays. The {pCASTING} caching strategy can be easily extended by adding new attributes to the probability computation, providing a good basis for future work.
 
 \printbibliography
 
