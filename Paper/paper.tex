@@ -30,10 +30,10 @@ merlin.steuer@student.uni-luebeck.de
 Named Data Networking (NDN) is a promising approach for Internet of Things (IoT) networks thanks to the innovative approaches like name-based routing and in-network caching. This paper proposes a novel probabilistic caching strategy which is well-suited for wireless IoT applications. By simulating a NDN network we find the new strategy to be beneficial on both energy consumption and data response times.
 \end{abstract}
 
-\begin{IEEEkeywords}
-    Named Data Networking, Information-Centric
-    Networking, Internet of Things, In-network caching, Freshness
-\end{IEEEkeywords}
+%\begin{IEEEkeywords}
+%    Named Data Networking, Information-Centric
+%    Networking, Internet of Things, In-network caching, Freshness
+%\end{IEEEkeywords}
 
 \section{Introduction}
 
@@ -77,7 +77,7 @@ The researchers describe attributes connected to the device or the data which ar
 	\item The device's energy level $EN$ with $0 \leq EN \leq 1$.
 	\item The devices current cache occupancy $OC$ with $0 \leq OC \leq 1$. A value of $0$ means that the cache is empty, $1$ represents a full cache respectively.
 	\item The residual freshness $FR = 1 - \frac{currentTime - t_s}{f}$ with $t_s$ being the timestamp at which the data was sampled and $f$ indicating for how long a datum is valid.
-\end{enumerate} 
+\end{enumerate}
 
 These three parameters are then combined to calculate a caching probability $F_u$ at a given node.
 \begin{equation}
@@ -97,7 +97,7 @@ $F_u$ is calculated by every node upon arrival of every Data packet.
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this paper, the {pCASTING} caching strategy was proposed for in-network caching in wireless IoT applications. The strategy adjusts the caching probability according to three main attributes of a device: It's energy level, the cache occupancy and the data freshness. It could be shown in simulations, that the strategy is able to reduce energy consumption in the nodes and while at the same time reduces content retrieval delays. The {pCASTING} caching strategy can be easily extended by adding new attributes to the probability computation, providing a good basis for future work.
+In this paper, the {pCASTING} caching strategy was proposed for in-network caching in wireless IoT applications. The strategy adjusts the caching probability according to three main attributes of a device: Its energy level, the cache occupancy and the data freshness. It could be shown in simulations, that the strategy can reduce energy consumption in the nodes and while at the same time reduces content retrieval delays. The {pCASTING} caching strategy can be easily extended by adding new attributes to the probability computation, providing a good basis for future work.
 
 \printbibliography
 
