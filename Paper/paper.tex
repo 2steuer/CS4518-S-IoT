@@ -10,7 +10,7 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
-\usepackage{biblatex}
+\usepackage[style=ieee,doi=false]{biblatex}
 \addbibresource{references.bib}
 
 
@@ -53,11 +53,9 @@ The content of this short paper is as follows. In section~\ref{sec:background} a
 NDN is a content dissemination architecture for the future internet. It employs hierarchical URI-like content names which are carried in so-called \textit{Interest} and \textit{Data} packages. As opposed to current content delivery technologies, NDN can be employed as a protocol directly above the link layer\cite{Baccelli2014}, reducing the communication overhead and thus energy efficiency in wireless applications.
 
 Each NDN node consists of the following data tables:
-\begin{itemize}
-    \item The content store (CS) which is used to cache incoming data
-    \item The Pending Interest Table (PIT) in which pending data requests are stored
-    \item The Forwarding Information Base (FIB), used as a routing table, deciding on routes based on content names
-\end{itemize}
+    \textit{(i)} The content store (CS) which is used to cache incoming data,
+    \textit{(ii)} the Pending Interest Table (PIT) in which pending data requests are stored and
+    \textit{(iii)} the Forwarding Information Base (FIB), used as a routing table, deciding on routes based on content names.
 
 When an \textit{Interest} arrives at a node, it first checks whether there is already data with the given content name in the CS. If this is the case, the data is returned to the requesting node. Otherwise, the node checks whether there already is a pending Interest in the PIT matching the content name. If there already exists an entry in the PIT, the Interest is discarded. If no such entry exists, the Interest is forwarded using the routing information in the FIB. When the Data packet returns to a node, it forwards the data packet to all corresponding nodes stored in the PIT. Each node may decide to cache the data in the CS for further requests of the same content name.
 
