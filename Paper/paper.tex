@@ -98,6 +98,27 @@ To evaluate the effectiveness of {pCASTING} in terms of energy consumption and d
 
 Two main experiments were performed: A \textit{Network Lifetime Analysis} to analyze whether the caching strategy would impact the overall energy consumption and thus network lifetime, as well as a \textit{Retrieval Performance Analysis}. 
 
+The results of the first experiment are shown in Figure \ref{fig:1}. With the {pCASTING} strategy applied, the nodes in the wireless network were operational for a longer amount of time, indicating that {pCASTING} has a beneficial effect on energy usage by reducing the amount of radio communications.
+
+Additionally, Table \ref{tab:1} displays the simulation results of the second experiment, giving the simulated cache hit ratio and the data retrieval time for the different caching approaches. The experiments have shown that {pCASTING} offers a higher data availability in caches while also allowing nodes to respond wuicker than when the other (or no) caching strategies are applied.
+
+\begin{figure}
+	\begin{center}
+	\includegraphics[width=0.3\textwidth]{fig1.png}
+	\end{center}
+
+	\label{fig:1}
+	\caption{Cumulative Distribution Function of the discharge time of the nodes in the network.}
+\end{figure} 
+
+\begin{table}
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{tab1.png}
+	\end{center}
+	\label{tab:1}
+	\caption{Data dissemination performance metrics for the different caching strategies.}
+\end{table}
+
 \section{Conclusion}
 \label{sec:conclusion}
 
